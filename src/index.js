@@ -55,7 +55,8 @@ class Game extends React.Component {
         }
       ],
       stepNumber: 0,
-      xIsNext: true
+      xIsNext: true,
+      sortAscending: true,
     };
   }
 
@@ -77,6 +78,12 @@ class Game extends React.Component {
       ]),
       stepNumber: history.length,
       xIsNext: !this.state.xIsNext
+    });
+  }
+
+  handleToggle() {
+    this.setState({
+      sortAscending: !this.state.sortAscending
     });
   }
 
@@ -113,6 +120,13 @@ class Game extends React.Component {
       status = "Next player: " + (this.state.xIsNext ? "X" : "O");
     }
 
+    let list;
+    if (this.state.sortAscending) {
+      list = <ol>{moves}</ol>;
+    } else {
+      list = <ol reversed>{moves.reverse()}</ol>;
+    }
+    
     return (
       <div className="game">
         <div className="game-board">
@@ -123,7 +137,8 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <ol>{moves}</ol>
+          <div><button onClick={() => this.handleToggle()}>Sort: {this.state.sortAscending ? 'Ascending' : 'Descending'}</button></div>
+            {list}
         </div>
       </div>
     );
